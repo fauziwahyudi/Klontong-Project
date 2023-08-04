@@ -1,6 +1,7 @@
 const app = require("../app");
 const request = require("supertest");
 const { sequelize } = require("../models");
+const { Product } = require("../models")
 
 let access_token;
 
@@ -236,13 +237,13 @@ describe("api testing", () => {
         });
     });
 
-     // PRODUCT
-     describe("GET /product", () => {
+    // PRODUCT
+    describe("GET /product", () => {
         test("should show all product response 200", async () => {
             const response = await request(app).get(`/products`).set("access_token", access_token);
-        
+
             expect(response.status).toBe(200);
-            expect(response.body).toEqual(expect.any(Array)); 
+            expect(response.body).toEqual(expect.any(Array));
             expect(response.body).toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({
@@ -262,9 +263,85 @@ describe("api testing", () => {
                 ])
             );
         });
-        
 
-        
+        //         test("should create product and response 200", async () => {
+        //             const product = {
+        //                 categoryId: 1,
+        //                 categoryName: "snacks",
+        //                 sku: "mjhhsk",
+        //                 name: "haiii",
+        //                 description: "hwhdjhj",
+        //                 weight: 1,
+        //                 width: 2,
+        //                 length: 3,
+        //                 height: 4,
+        //                 image: "https://ik.imagekit.io/egkozry2v/productKlontong/optimized-image.jpeg",
+        //                 price: 20000
+        //             };
+
+        //             const response = await request(app).post("/products").send(product).set("access_token", access_token);
+        // console.log(response.body, "INI ADD PRODUCT");
+        //             expect(response.status).toBe(200);
+        //             expect(response.body).toHaveProperty("message", "New User created successfully", "data", product);
+        //             expect(response.body.message).toContain("New User created successfully");
+
+        //         });
+
+        test('should delete product and response 200', async () => {
+            const product = await Product.findOne({ where: { name: 'Product Test' } });
+
+            const response = await request(app).delete(`/products/100`).set("access_token", access_token);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toHaveProperty('message', `Product Household Appliances success to delete`);
+
+            const deletedProduct = await Product.findByPk(100);
+            expect(deletedProduct).toBeNull();
+        });
+
+        test('should return 404 if product not found', async () => {
+            const response = await request(app).delete('/products/9999').set("access_token", access_token);
+
+            expect(response.status).toBe(404);
+            expect(response.body).toHaveProperty('message', 'Product 9999 not found');
+        });
+
+        test("should show product by id response 200", async () => {
+
+            const response = await request(app).get(`/products/99`).set("access_token", access_token);
+            
+            const product = {
+                categoryId: 4,
+                categoryName: 'Household Appliances',
+                sku: 'MHSKIC',
+                name: 'Beverages',
+                description: 'Treat yourself to the Symphony of Flavors goodness of Beverages, an exquisite offering from the Household Appliances collection.',
+                weight: 258,
+                width: 7,
+                length: 6,
+                height: 3,
+                image: 'https://example.com/household-appliances.jpg',
+                price: 50900,
+                Category: {
+                    id: 4,
+                    name: 'Household Appliance',
+                }
+            }
+
+            expect(response.status).toBe(200);
+            expect(response.body).toBeInstanceOf(Object);
+            expect(response.body).toMatchObject(product);
+        })
+
+        test("should not found product by id response 404", async () => {
+
+            const response = await request(app).get(`/products/9999`).set("access_token", access_token);
+
+            expect(response.status).toBe(404);
+            expect(response.body).toHaveProperty("message", "Product 9999 not found");
+            expect(response.body.message).toContain("Product 9999 not found");
+        })
+
     })
 
 

@@ -85,11 +85,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: { msg: `Price is required` },
-        notEmpty: { msg: `Price can't be empty` },
-        min: {
-          args: 10000000,
-          msg: `Minimum price 10000000`
-        }
+        notEmpty: { msg: `Price can't be empty` }
       }
     },
   }, {
