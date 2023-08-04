@@ -236,4 +236,37 @@ describe("api testing", () => {
         });
     });
 
+     // PRODUCT
+     describe("GET /product", () => {
+        test("should show all product response 200", async () => {
+            const response = await request(app).get(`/products`).set("access_token", access_token);
+        
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(expect.any(Array)); 
+            expect(response.body).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        id: expect.any(Number),
+                        categoryId: expect.any(Number),
+                        categoryName: expect.any(String),
+                        sku: expect.any(String),
+                        name: expect.any(String),
+                        description: expect.any(String),
+                        weight: expect.any(Number),
+                        width: expect.any(Number),
+                        length: expect.any(Number),
+                        height: expect.any(Number),
+                        image: expect.any(String),
+                        price: expect.any(Number),
+                    }),
+                ])
+            );
+        });
+        
+
+        
+    })
+
+
+
 });
