@@ -18,7 +18,7 @@ const dataCategories = [
     {
         id: 3,
         name: "Instant Noodles",
-        categoryName: "Snack Foods",
+        categoryName: "Instant Noodles",
         image: "https://example.com/snack-foods.jpg"
     },
     {
@@ -27,18 +27,18 @@ const dataCategories = [
         categoryName: "Household Appliances",
         image: "https://example.com/household-appliances.jpg"
     },
-    {
-        id: 5,
-        name: "Desserts",
-        categoryName: "Desserts",
-        image: "https://example.com/desserts.jpg"
-    },
-    {
-        id: 6,
-        name: "Personal Care",
-        categoryName: "Personal Care",
-        image: "https://example.com/personal-care.jpg"
-    },
+    // {
+    //     id: 5,
+    //     name: "Desserts",
+    //     categoryName: "Desserts",
+    //     image: "https://example.com/desserts.jpg"
+    // },
+    // {
+    //     id: 6,
+    //     name: "Personal Care",
+    //     categoryName: "Personal Care",
+    //     image: "https://example.com/personal-care.jpg"
+    // },
 ];
 
 const descriptionAdjectives = [
@@ -165,7 +165,7 @@ function calculatePrice(name, categoryName) {
         "Snacks": 30000,
         "Beverages": 25000,
         "Instant Noodles": 20000,
-        // Add more price per category...
+        "Household Appliances": 50000
     };
     const namePrice = name.length * pricePerCharacter;
     const categoryPrice = pricePerCategory[categoryName];
