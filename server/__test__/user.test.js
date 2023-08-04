@@ -163,4 +163,77 @@ describe("api testing", () => {
             expect(response.body.message).toContain("Invalid email format");
         });
     });
+
+    // LOGIN
+    describe("POST /login", () => {
+        test("should login account and response 200", async () => {
+            const user = {
+                email: "test@gmail.com",
+                password: "12345",
+            };
+
+            const response = await request(app).post("/login").send(user);
+            expect(response.status).toBe(200);
+            expect(response.body).toHaveProperty("access_token", expect.any(String))
+            access_token = response.body.access_token
+
+        });
+
+        test("should response bad request 400 Email / Password is required", async () => {
+            const user = {
+                email: "",
+                password: "1235",
+            };
+
+            const response = await request(app).post("/login").send(user);
+
+            expect(response.status).toBe(400);
+            expect(response.body).toBeInstanceOf(Object);
+            expect(response.body).toHaveProperty("message", "Email / Password is required");
+            expect(response.body.message).toContain("Email / Password is required");
+        });
+
+        test("should response bad request 400 Email / Password is required", async () => {
+            const user = {
+                email: "test@gmail.com",
+                password: "",
+            };
+
+            const response = await request(app).post("/login").send(user);
+
+            expect(response.status).toBe(400);
+            expect(response.body).toBeInstanceOf(Object);
+            expect(response.body).toHaveProperty("message", "Email / Password is required");
+            expect(response.body.message).toContain("Email / Password is required");
+        });
+
+        test("should response Unauthorized 401 Invalid Email / Password", async () => {
+            const user = {
+                email: "test@gmail.com",
+                password: "1235",
+            };
+
+            const response = await request(app).post("/login").send(user);
+
+            expect(response.status).toBe(401);
+            expect(response.body).toBeInstanceOf(Object);
+            expect(response.body).toHaveProperty("message", "Invalid Email / Password");
+            expect(response.body.message).toContain("Invalid Email / Password");
+        });
+
+        test("should response Unauthorized 401 Invalid Email / Password", async () => {
+            const user = {
+                email: "test@gmail.co",
+                password: "12345",
+            };
+
+            const response = await request(app).post("/login").send(user);
+
+            expect(response.status).toBe(401);
+            expect(response.body).toBeInstanceOf(Object);
+            expect(response.body).toHaveProperty("message", "Invalid Email / Password");
+            expect(response.body.message).toContain("Invalid Email / Password");
+        });
+    });
+
 });
