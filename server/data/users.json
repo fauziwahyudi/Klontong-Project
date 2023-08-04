@@ -1,20 +1,10 @@
 [
     {
-        "id" : 1,
         "username" : "admin",
         "email" : "admin@gmail.com",
         "password" : "12345",
         "role" : "admin",
         "phoneNumber" : "08123456568",
         "address" : "Jalan Veteran No. 08"
-    },
-    {
-        "id" : 2,
-        "username" : "test",
-        "email" : "test@gmail.com",
-        "password" : "12345",
-        "role" : "admin",
-        "phoneNumber" : "081234565987",
-        "address" : "Jalan Veteran No. 09"
     }
 ]

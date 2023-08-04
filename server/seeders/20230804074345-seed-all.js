@@ -18,7 +18,6 @@ module.exports = {
       el.createdAt = new Date()
       el.updatedAt = new Date()
       el.password = hashPassword(el.password)
-      delete el.id;
       return el
     })
 
