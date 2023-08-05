@@ -10,6 +10,17 @@ import { detailProduct } from '../store/actions/actionCreator';
 
 function ProductDetail({ productId, name, image, show, handleClose }) {
 
+    const formatCurrency = (number) => {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+        })
+            .format(number)
+            .replace('Rp', '')
+            .trim();
+    };
+
     const [loading, setLoading] = useState(true)
 
     const detailProducts = useSelector((state) => state.productDetailReducer.detail)
@@ -26,32 +37,28 @@ function ProductDetail({ productId, name, image, show, handleClose }) {
 
     return (
         <>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} size="lg">
                 <Modal.Header closeButton>
                     <Modal.Title>{detailProducts.name} {detailProducts.id}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="show-grid">
+                <Modal.Body className="grid-example" >
                     <Container>
                         <Row>
-                            <Col xs={12} md={12}>
+                            <Col xs={6} md={7}>
                                 <img src={detailProducts.image} style={{ width: "100%" }} alt="" />
                             </Col>
-                            <Col xs={6} md={4}>
-                                .col-xs-6 .col-md-4
+                            <Col xs={6} md={5}>
+                                <p>Category: {detailProducts.categoryName}</p>
+                                <p>SKU : {detailProducts.sku}</p>
+                                <p>Name : {detailProducts.name}</p>
+                                <p>Description : {detailProducts.description}</p>
+                                <p>Weight : {detailProducts.weight} gram</p>
+                                <p>Width : {detailProducts.width} cm</p>
+                                <p>Length : {detailProducts.length} cm</p>
+                                <p>Height : {detailProducts.height} cm</p>
+                                <p style={{fontSize: '30px'}}>Price: IDR {formatCurrency(detailProducts.price)},-</p> 
                             </Col>
-                            <Col xs={6} md={4}>
-                                .col-xs-6 .col-md-4
-                            </Col>
-
                         </Row>
-                        <Modal.Body>
-                            <p>{detailProducts.categoryName}</p>
-                        </Modal.Body>
-
-
-
-
-
                     </Container>
                 </Modal.Body>
             </Modal>

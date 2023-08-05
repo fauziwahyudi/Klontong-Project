@@ -59,7 +59,7 @@ describe("api testing", () => {
             };
 
             const response = await request(app).post("/register").send(user);
-
+console.log(response.body, "INI REGISTEEERR");
             expect(response.status).toBe(201);
             expect(response.body).toHaveProperty("message", "user with id 2 and email test@gmail.com has been created");
             expect(response.body.message).toContain("user with id 2 and email test@gmail.com has been created");
@@ -263,29 +263,6 @@ describe("api testing", () => {
                 ])
             );
         });
-
-        //         test("should create product and response 200", async () => {
-        //             const product = {
-        //                 categoryId: 1,
-        //                 categoryName: "snacks",
-        //                 sku: "mjhhsk",
-        //                 name: "haiii",
-        //                 description: "hwhdjhj",
-        //                 weight: 1,
-        //                 width: 2,
-        //                 length: 3,
-        //                 height: 4,
-        //                 image: "https://ik.imagekit.io/egkozry2v/productKlontong/optimized-image.jpeg",
-        //                 price: 20000
-        //             };
-
-        //             const response = await request(app).post("/products").send(product).set("access_token", access_token);
-        // console.log(response.body, "INI ADD PRODUCT");
-        //             expect(response.status).toBe(200);
-        //             expect(response.body).toHaveProperty("message", "New User created successfully", "data", product);
-        //             expect(response.body.message).toContain("New User created successfully");
-
-        //         });
 
         test('should delete product and response 200', async () => {
             const product = await Product.findOne({ where: { name: 'Product Test' } });

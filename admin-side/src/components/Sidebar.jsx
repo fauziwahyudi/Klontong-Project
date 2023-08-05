@@ -1,4 +1,4 @@
-import LogoHermes from '../assets/zhiherm.png'
+import LogoKlontongMart from '../assets/klontong-mart.png'
 import Dashboard from '../assets/Dasboard.svg'
 import Categories from '../assets/categories.svg'
 import Register from '../assets/register.svg'
@@ -44,7 +44,7 @@ export default function Sidebar() {
                             </a>
                         </div>
                         <div className="illustration">
-                            <img style={{ width: "100px", marginLeft: "45px" }} src={LogoHermes} alt=""/>
+                            <img style={{ width: "200px", marginLeft: "5px", marginBottom: "30px" }} src={LogoKlontongMart} alt=""/>
                         </div>
                     </div>
 

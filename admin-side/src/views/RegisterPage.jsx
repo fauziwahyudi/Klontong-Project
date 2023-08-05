@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import LogoHermes from '../assets/zhiherm.png'
 import HermesLogin from '../assets/hermeslogin.jpg'
 import { Link } from 'react-router-dom';
 import { registerUser } from '../store/actions/actionCreator';

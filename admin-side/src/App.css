@@ -1,5 +1,5 @@
 :root {
-  --primaryAccsent: #C72129;
+  --primaryAccsent: #FFFF33;
   --secondaryColor: #FFF6E4;
   --blackColor: #323335;
   --grey: #9C9C9C;
@@ -34,7 +34,7 @@
 }
 
 .sidebar {
-  background-color: #323335;
+  background-color: #333366;
   width: 250px;
   /* width: 87px; */
   padding: 24px;

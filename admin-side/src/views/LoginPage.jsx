@@ -1,5 +1,5 @@
 import React from 'react';
-import LogoHermes from '../assets/zhiherm.png'
+import LogoKlontongMart from '../assets/klontong-mart.png'
 import HermesLogin from '../assets/hermeslogin2.mp4'
 import { useState, } from "react"
 import { useNavigate } from "react-router-dom";
@@ -80,7 +80,7 @@ export default function LoginPage() {
             <div className="container-custom-login">
                 <div className="myform">
                     <form onSubmit={henddlerLogin} >
-                    <img className="wave" width={100} style={{ marginLeft: "80px", marginBottom: "10px" }} src={LogoHermes} alt="LogoHermes" />
+                    <img className="wave" width={200} style={{ marginLeft: "20px", marginBottom: "50px" }} src={LogoKlontongMart} alt="LogoHermes" />
                         <h2>SIGN IN</h2>
                         <h6>Please enter your login and password!</h6>
                         <input value={loginForm.email} onChange={henddlerFormInput} name="email" type="text" placeholder="Admin Email" />
