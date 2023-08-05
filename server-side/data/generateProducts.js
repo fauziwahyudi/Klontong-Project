@@ -6,7 +6,9 @@ const generateSKU = () => {
     return `SKU${chance.string({ length: 6, alpha: true, numeric: true }).toUpperCase()}`;
 };
 
-const products = [
+const products = [];
+
+const initialProducts = [
     {
         id: 1,
         categoryId: 1,
@@ -93,7 +95,7 @@ const products = [
         width: 5,
         length: 5,
         height: 15,
-        image: "https://example.com/mushroom-miso-ramen.jpghttps://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//catalog-image/123/MTA-95799849/indomie_indomie-tori-miso-ramen-86gr_full01.jpg",
+        image: "https://s4.bukalapak.com/img/47418397003/s-463-463/data.jpeg.webp",
         price: 7500,
         authorId: 1
     },
@@ -138,7 +140,7 @@ const products = [
         width: 10,
         length: 10,
         height: 20,
-        image: "https://dit.indotaichen.com/olskop/assets/upload/gambar1642754063.jpghttps://example.com/popcorn.jpg",
+        image: "https://assets.klikindomaret.com/share/20069696_1.jpg",
         price: 12000,
         authorId: 1
     },
@@ -306,21 +308,18 @@ const products = [
         image: "https://down-id.img.susercontent.com/file/5b46409767c5b09907f19c0f0463211d",
         price: 200000,
         authorId: 1
-    },
+    }
 ];
 
-
-
-for (let i = 2; i <= 100; i++) {
-    products.push({
-        ...products[0],
-        id: i,
-        sku: generateSKU(),
-        authorId: 1,
-    });
+for (let i = 0; i < 100; i++) {
+    const newProduct = {
+        ...initialProducts[i % initialProducts.length], 
+        id: i + 1, 
+        sku: generateSKU(), 
+    };
+    products.push(newProduct);
 }
 
-// Write the products data to products.json
 fs.writeFileSync('products.json', JSON.stringify(products, null, 2));
 
 console.log('Products data generated and written to products.json.');

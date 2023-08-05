@@ -13,7 +13,6 @@ export function fetchProducts() {
                     "access_token": localStorage.getItem("access_token")
                 }
             })
-            // console.log(response, "INI PRODUCT");
             if (!response.ok) {
                 throw new Error("something went wrong")
             }
@@ -35,7 +34,6 @@ export function detailProduct(id) {
             const response = await fetch(BASE_URL + "/products/" + id, {
                 method: 'GET',
                 headers: {
-                    // 'Content-Type': 'application/json',
                     "access_token": localStorage.getItem("access_token")
                 }
             })
@@ -44,7 +42,6 @@ export function detailProduct(id) {
                 throw new Error("something went wrong")
             }
             const jsonData = await response.json()
-            // console.log(jsonData, "INI DETAIL PRODUCT");
 
             dispatch({ type: DETAIL_PRODUCT_SUCCESS, payload: jsonData })
 
@@ -203,7 +200,6 @@ export function addCategory(formCategory, handleClose) {
             dispatch(fetchCategories())
             handleClose()
             return responseJson
-            //    dispatch(successAddProduct('Success Created'))
 
         } catch (error) {
             throw error
@@ -233,7 +229,6 @@ export function editCategory(formCategory, id, handleClose) {
             dispatch(fetchCategories())
             handleClose()
             return responseJson
-            //    dispatch(successAddProduct('Success Created'))
 
         } catch (error) {
             throw error
@@ -280,9 +275,9 @@ export function registerUser(registerForm) {
                 },
                 body: JSON.stringify(registerForm)
             })
-            // console.log(response);
+
             const responseJson = await response.json()
-            // console.log(responseJson, '<<< action');
+
             if (!response.ok) {
                 throw new Error(responseJson.message)
             }
@@ -308,9 +303,9 @@ export function loginUser(loginForm) {
                 },
                 body: JSON.stringify(loginForm)
             })
-            console.log(response);
+
             const responseJson = await response.json()
-            console.log(responseJson, '<<< action');
+
             if (!response.ok) {
                 throw new Error(responseJson.message)
             }

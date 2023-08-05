@@ -78,11 +78,13 @@ npx sequelize db:seed:all
 - Create a new file named .env in the root directory of the project.
 - Open the .env file.
 - Add the following configurations to the .env file:
-
+  
+```
 SECRET_KEY=secret
 IMAGEKIT_PUBLIC_KEY="public_uHp4Ow3gmk5F0SbkibBbzweMx2c="
 IMAGEKIT_PRIVATE_KEY="private_yxjdFwrWXT4avaA+EwngOPXEmIM="
 IMAGEKIT_URL_ENDPOINT="https://ik.imagekit.io/egkozry2v"
+```
 
 
 **6. Running the Application**
@@ -100,7 +102,15 @@ nodemon server
 **7. Testing Flow**
 
 - The application is equipped with several testing flows to ensure basic functions work correctly.
-- To run the testing, ensure the application is running (execute `npm start` first).
+- Before run testing, run create database and migrations testing to create the necessary tables in the database and run seeder to seed your database:
+  
+```
+npx sequelize --env test db:create
+```
+```
+npx sequelize --env test db:migrate
+```
+
 - Run the following command to start the testing:
 
 ```

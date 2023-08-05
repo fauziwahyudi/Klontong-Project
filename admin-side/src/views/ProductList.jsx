@@ -45,7 +45,7 @@ export default function ProductList() {
     return (
         <>
             <section className="col-md-12 ms-sm-auto col-lg-12 px-md-4 mt-3" id="product-section">
-                <div className="container-search position-absolute align-items-center" style={{ marginLeft: "120px" }}>
+                <div className="container-search position-absolute align-items-center" >
                     <input type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)} />
                     <div className="btn-search ">
                         <i className="fa fa-search"></i>

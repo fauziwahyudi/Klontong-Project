@@ -11,7 +11,6 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
 export default function TableRowProduct(props) {
-    console.log(props.product, "INIIIIIII");
 
     const formatCurrency = (number) => {
         return new Intl.NumberFormat('id-ID', {

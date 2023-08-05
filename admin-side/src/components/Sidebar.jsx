@@ -43,9 +43,9 @@ export default function Sidebar() {
                                     <span className="description-header" style={{marginLeft: "25px"}}>Admin Panel</span>
                             </a>
                         </div>
-                        <div className="illustration">
-                            <img style={{ width: "200px", marginLeft: "5px", marginBottom: "30px" }} src={LogoKlontongMart} alt=""/>
-                        </div>
+                        {/* <div className="illustration">
+                            <img style={{ width: "100px", marginLeft: "5px", marginBottom: "30px" }} src={LogoKlontongMart} alt=""/>
+                        </div> */}
                     </div>
 
                     <div className="main">

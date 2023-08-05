@@ -49,7 +49,7 @@ afterAll(async () => {
 describe("api testing", () => {
     // REGISTER
     describe("POST /register", () => {
-        test("should create customer account and response 201", async () => {
+        test("should response 400 bad request Email must be unique", async () => {
             const user = {
                 username: "test",
                 email: "test@gmail.com",
@@ -60,6 +60,22 @@ describe("api testing", () => {
 
             const response = await request(app).post("/register").send(user);
 
+            expect(response.status).toBe(400);
+            expect(response.body).toBeInstanceOf(Object);
+            expect(response.body).toHaveProperty("message", "id must be unique");
+            expect(response.body.message).toContain("id must be unique");
+        });
+
+        test("should create customer account and response 201", async () => {
+            const user = {
+                username: "test",
+                email: "test@gmail.com",
+                password: "12345",
+                phoneNumber: "085267488727",
+                address: "Jl. Veteran No 18"
+            };
+
+            const response = await request(app).post("/register").send(user);
             expect(response.status).toBe(201);
             expect(response.body).toHaveProperty("message", "user with id 2 and email test@gmail.com has been created");
             expect(response.body.message).toContain("user with id 2 and email test@gmail.com has been created");
@@ -128,23 +144,6 @@ describe("api testing", () => {
             expect(response.body).toBeInstanceOf(Object);
             expect(response.body).toHaveProperty("message", "Password can't be empty");
             expect(response.body.message).toContain("Password can't be empty");
-        });
-
-        test("should response 400 bad request Email must be unique", async () => {
-            const user = {
-                username: "test",
-                email: "test@gmail.com",
-                password: "12345",
-                phoneNumber: "085267488727",
-                address: "Jl. Veteran No 18"
-            };
-
-            const response = await request(app).post("/register").send(user);
-
-            expect(response.status).toBe(400);
-            expect(response.body).toBeInstanceOf(Object);
-            expect(response.body).toHaveProperty("message", "Email must be unique");
-            expect(response.body.message).toContain("Email must be unique");
         });
 
         test("should response bad 400 request Invalid email format", async () => {
@@ -270,7 +269,7 @@ describe("api testing", () => {
             const response = await request(app).delete(`/products/100`).set("access_token", access_token);
 
             expect(response.status).toBe(200);
-            expect(response.body).toHaveProperty('message', `Product Household Appliances success to delete`);
+            expect(response.body).toHaveProperty('message', `Product Cosmos Electric Kettle 1.2 liter 600 w success to delete`);
 
             const deletedProduct = await Product.findByPk(100);
             expect(deletedProduct).toBeNull();
@@ -288,20 +287,21 @@ describe("api testing", () => {
             const response = await request(app).get(`/products/99`).set("access_token", access_token);
             
             const product = {
-                categoryId: 4,
-                categoryName: 'Household Appliances',
-                sku: 'MHSKIC',
-                name: 'Beverages',
-                description: 'Treat yourself to the Symphony of Flavors goodness of Beverages, an exquisite offering from the Household Appliances collection.',
-                weight: 258,
-                width: 7,
-                length: 6,
-                height: 3,
-                image: 'https://example.com/household-appliances.jpg',
-                price: 50900,
+                categoryId: 2,
+                categoryName: 'Beverages',
+                sku: 'SKUKZF4JC',
+                name: 'Cadbury Hot Chocolate',
+                description: 'Rich and creamy hot chocolate for cold weather.',
+                weight: 300,
+                width: 10,
+                length: 10,
+                height: 20,
+                image: 'https://cf.shopee.co.id/file/id-11134207-23020-axzz6b4t41nve8',
+                price: 10000,
+                authorId: 1,
                 Category: {
-                    id: 4,
-                    name: 'Household Appliance',
+                    id: 2,
+                    name: 'Beverages'
                 }
             }
 
