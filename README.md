@@ -28,7 +28,7 @@ git clone https://github.com/fauziwahyudi/Klontong-Project.git
 - In folder "Klontong-Project" navigate to the project's directory 
   
   ```
-  cd Server
+  cd server-side
   ```
 
 - open the file `config/config.json`.
@@ -75,7 +75,7 @@ npx sequelize db:seed:all
 
 **6. Set Up Environment Variables**
 
-- Create a new file named .env in the root directory of the project.
+- Create a new file named .env in the root directory of the project (in folder server).
 - Open the .env file.
 - Add the following configurations to the .env file:
   
@@ -86,8 +86,7 @@ IMAGEKIT_PRIVATE_KEY="private_yxjdFwrWXT4avaA+EwngOPXEmIM="
 IMAGEKIT_URL_ENDPOINT="https://ik.imagekit.io/egkozry2v"
 ```
 
-
-**6. Running the Application**
+**7. Running the Application**
 
 - Once migrations are completed, run the following command to start the application:
 
@@ -95,11 +94,9 @@ IMAGEKIT_URL_ENDPOINT="https://ik.imagekit.io/egkozry2v"
 nodemon server
 ```
 
-- The application will run on the specified port (e.g., port 3004). Open your browser and access `http://localhost:3004` (adjust the port as needed) to access the application.
+**8. Testing Flow**
 
-
-
-**7. Testing Flow**
+*Using Superjest to Testing the API*
 
 - The application is equipped with several testing flows to ensure basic functions work correctly.
 - Before run testing, run create database and migrations testing to create the necessary tables in the database and run seeder to seed your database:
@@ -120,11 +117,158 @@ npm run test
 - The test results will be displayed in the terminal or command prompt.
 - Ensure all tests pass successfully before proceeding.
 
-**User for Testing**
+*Using Postman to Test the API*
 
-- Use the following credentials to log in as a regular user and perform testing according to the defined testing flow.
-- Email: admin@gmail.com
-- Password: 12345
+To use Postman to test the API, make sure that the server application is running correctly as per the previous steps. Also, ensure that you have Postman installed on your computer before proceeding. Open your postman and access `http://localhost:3004` (adjust the port as needed) to access the application.
+
+# Example test using the "POST /login" method:
+
+- Open Postman and ensure that the server application is running at http://localhost:3004.
+- Select the "POST" method.
+- Enter the endpoint URL: http://localhost:3004/login.
+- In the "Body" tab, select "x-www-form-urlencoded".
+- Add two key-value pairs for the email and password:
+  ex:
+
+        Key: email, Value: admin@gmail.com
+        Key: password, Value: 12345
+
+- Click the "Send" button to submit the login request.
+- The server will process the request and, if the credentials are correct, will respond with an access token in the response.
+
+Example response from the server:
+
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTEyNzQyNzR9.ldgutox6c1CffeEXx0k0Peuwkg5EEOMI_rhuuhu6Lns",
+    "username": "admin"
+}
+
+
+# Example test using the "GET /products" method:
+
+- Open Postman and ensure that the server application is running at http://localhost:3004.
+- Select the "GET" method.
+- Enter the endpoint URL: http://localhost:3004/products.
+- Click on the "Headers" tab.
+- Add a new key-value pair in the headers:
+  ex:
+
+        Key: access_token
+        Value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTEyNzQyNzR9.ldgutox6c1CffeEXx0k0Peuwkg5EEOMI_rhuuhu6Lns
+
+- Click the "Send" button to submit the request.
+
+# Example test using the "POST /products" method add product:
+
+- Open Postman and ensure that the server application is running at http://localhost:3004.
+- Select the "POST" method.
+- Enter the endpoint URL: http://localhost:3004/products.
+- Click on the "Headers" tab.
+- Add a new key-value pair in the headers:
+  ex:
+
+        Key: access_token
+        Value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTEyNzQyNzR9.ldgutox6c1CffeEXx0k0Peuwkg5EEOMI_rhuuhu6Lns
+
+- In the "Body" tab, select "form-data" because there is items upload.
+- Add two key-value pairs for the email and password:
+  ex:
+
+        Key: categoryId, Value: 1
+        Key: categoryName", Value: Snacks
+        Key: sku, Value: SKUITMZXY
+        Key: name, Value: Potato Chips
+        Key: description, Value: Crispy and delicious potato chips for snacking
+        Key: weight, Value: 50
+        Key: width, Value: 15
+        Key: length, Value: 20
+        Key: height, Value: 5
+        Key: image, Value: note: select File and upload your image
+        Key: price, Value: 10000 
+
+- Click the "Send" button to submit the request.
+
+# Example test using the "POST /products/:id" method edit product:
+
+- Open Postman and ensure that the server application is running at http://localhost:3004.
+- Select the "POST" method.
+- Select the ID you want to edit.
+- Enter the endpoint URL: http://localhost:3004/products/1.
+- Click on the "Headers" tab.
+- Add a new key-value pair in the headers:
+  ex:
+
+        Key: access_token
+        Value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTEyNzQyNzR9.ldgutox6c1CffeEXx0k0Peuwkg5EEOMI_rhuuhu6Lns
+        
+- In the "Body" tab, select "form-data" because there is items upload.
+- Add two key-value pairs for the email and password:
+  ex:
+
+        Key: categoryId, Value: 1
+        Key: categoryName", Value: Snacks
+        Key: sku, Value: SKUSV6HVM
+        Key: name, Value: Good Time Cookies Double Chocolate
+        Key: description, Value: Mouthwatering chocolate cookies to satisfy your sweet cravings.
+        Key: weight, Value: 50
+        Key: width, Value: 15
+        Key: length, Value: 20
+        Key: height, Value: 5
+        Key: image, Value: note: select File and upload your image
+        Key: price, Value: 15000
+
+- Click the "Send" button to submit the request.
+
+# Example test using the "DELETE /products/:id" method:
+
+- Open Postman and ensure that the server application is running at http://localhost:3004.
+- Select the "DELETE" method.
+- Select the ID you want to delete.
+- Enter the endpoint URL: http://localhost:3004/products/1.
+- Click on the "Headers" tab.
+- Add a new key-value pair in the headers:
+  ex:
+
+        Key: access_token
+        Value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTEyNzQyNzR9.ldgutox6c1CffeEXx0k0Peuwkg5EEOMI_rhuuhu6Lns
+
+- Click the "Send" button to submit the request.
+
+# Example test using the "GET /products/:id" detail product method:
+
+- Open Postman and ensure that the server application is running at http://localhost:3004.
+- Select the "GET" method.
+- Select the ID you want to detail product.
+- Enter the endpoint URL: http://localhost:3004/products/1.
+- Click on the "Headers" tab.
+- Add a new key-value pair in the headers:
+  ex:
+
+        Key: access_token
+        Value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTEyNzQyNzR9.ldgutox6c1CffeEXx0k0Peuwkg5EEOMI_rhuuhu6Lns
+
+- Click the "Send" button to submit the request.
+  
+  
+**User for Testing Admin**
+
+- In folder "Klontong-Project" navigate to the project's directory 
+  
+  ```
+  cd admin-side
+  ```
+- Run the following command to start the application:
+
+```
+npx vite
+```
+
+- Before login, make sure that the server application is running. Use the following credentials to login as a regular user and perform testing according to the defined testing flow.
+
+```
+Email: admin@gmail.com
+Password: 12345
+```
 
 **Important Note:**
 
