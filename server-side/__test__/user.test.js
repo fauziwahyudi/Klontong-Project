@@ -59,7 +59,7 @@ describe("api testing", () => {
             };
 
             const response = await request(app).post("/register").send(user);
-console.log(response.body, "INI REGISTEEERR");
+
             expect(response.status).toBe(201);
             expect(response.body).toHaveProperty("message", "user with id 2 and email test@gmail.com has been created");
             expect(response.body.message).toContain("user with id 2 and email test@gmail.com has been created");

@@ -1,6 +1,6 @@
 import React from 'react';
 import LogoKlontongMart from '../assets/klontong-mart.png'
-import HermesLogin from '../assets/hermeslogin2.mp4'
+import KlontongLogin from '../assets/klontong-mart.jpg'
 import { useState, } from "react"
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
@@ -92,7 +92,7 @@ export default function LoginPage() {
                     </form>
                 </div>
                 <div className="image">
-                    <video src={HermesLogin} autoPlay loop muted controls={false} width="100%" height="500px" />
+                    <img src={KlontongLogin} />
                 </div>
             </div>
         </>
