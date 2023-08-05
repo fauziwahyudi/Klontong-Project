@@ -56,7 +56,7 @@
 }
 
 .main-content {
-  background-color: #EEEEEE;
+  background-color: #c2c2d1;
   flex-grow: 1;
   margin-left: 245px;
   margin-right: 0;
@@ -301,7 +301,7 @@ div.container-custom-login div.myform{
 }
 
 div.container-custom-login div.myform h2{
-  color: #1c1c1e;
+  color: #333366;
   margin-bottom: 20px;
 }
 
@@ -317,7 +317,7 @@ div.container-custom-login div.myform input{
 }
 div.container-custom-login div.myform button{
   color: white;
-  background-color: #1c1c1e;
+  background-color: #333366;
   border: none;
   outline: none;
   border-radius: 2px;

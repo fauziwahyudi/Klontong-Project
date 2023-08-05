@@ -69,7 +69,7 @@ export default function TableRowProduct(props) {
             <td className="fw-bold">IDR {formatCurrency(props.product.price)},-</td>
             <td>{props.product.User.username}</td>
             <td>
-                <Button variant="secondary" onClick={handleShowProduct} >
+                <Button style={{ backgroundColor: '#333366', color: 'white' }} onClick={handleShowProduct} >
                     show details
                 </Button>
 

@@ -43,7 +43,7 @@ export default function ProductList() {
 
     return (
         <>
-            <section className="col-md-12 ms-sm-auto col-lg-12 px-md-4 mt-3" id="product-section">
+            <section className="col-md-12 ms-sm-auto col-lg-12 px-md-4 mt-3">
                 <div className="container-search position-absolute align-items-center" >
                     <input type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)} />
                     <div className="btn-search ">
@@ -52,7 +52,7 @@ export default function ProductList() {
                 </div>
                 <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 border-bottom" style={{ marginTop: "70px" }}>
                     <h1 className="display-2" style={{ fontSize: "30px" }}>Product List</h1>
-                    <Button variant="secondary" onClick={handleShow}>
+                    <Button style={{ backgroundColor: '#333366', color: 'white' }} onClick={handleShow}>
                         + Create Product
                     </Button>
 
@@ -93,10 +93,9 @@ export default function ProductList() {
 
             <div className="pagination mt-3 d-flex justify-content-center">
                 <Button
-                    variant="secondary"
                     disabled={currentPage === 1}
                     onClick={() => handlePageChange(currentPage - 1)}
-                    style={{marginBottom: "30px"}}
+                    style={{marginBottom: "30px", backgroundColor: '#333366', color: 'white'}}
                 >
                     Previous
                 </Button>
@@ -112,10 +111,9 @@ export default function ProductList() {
                     ))}
                 </div>
                 <Button
-                    variant="secondary"
                     disabled={currentPage === totalPages}
                     onClick={() => handlePageChange(currentPage + 1)}
-                    style={{marginBottom: "30px"}}
+                    style={{marginBottom: "30px", backgroundColor: '#333366', color: 'white'}}
                 >
                     Next
                 </Button>

@@ -204,7 +204,7 @@ function FormProduct({ product, isEdit, show, handleClose }) {
               value={formProduct.sku}
               type="text"
               autoFocus
-              disabled={generateSKU} // Nonaktifkan field jika generateSKU dicentang
+              disabled={generateSKU} 
               className={imageError.sku ? 'is-invalid' : formProduct.sku ? 'is-valid' : ''}
               style={{ height: '38px' }}
             />
