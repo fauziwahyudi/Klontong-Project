@@ -16,7 +16,6 @@ export default function ProductList() {
 
     const products = useSelector((state) => state.productReducer.products)
     const dispatch = useDispatch()
-    // console.log(products);
 
 
     useEffect(() => {
@@ -97,6 +96,7 @@ export default function ProductList() {
                     variant="secondary"
                     disabled={currentPage === 1}
                     onClick={() => handlePageChange(currentPage - 1)}
+                    style={{marginBottom: "30px"}}
                 >
                     Previous
                 </Button>
@@ -115,6 +115,7 @@ export default function ProductList() {
                     variant="secondary"
                     disabled={currentPage === totalPages}
                     onClick={() => handlePageChange(currentPage + 1)}
+                    style={{marginBottom: "30px"}}
                 >
                     Next
                 </Button>
