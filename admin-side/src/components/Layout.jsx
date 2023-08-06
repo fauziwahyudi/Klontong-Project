@@ -1,23 +1,20 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from './Sidebar'
+import Sidebar from './Sidebar';
+import styled from 'styled-components';
 
-export default function Layout() {
-    return (
-        <>
-            <div className="container container-custom">
-                <Sidebar />
+const Layout = () => {
+  return (
+    <Container>
+      <Sidebar />
+        <Outlet />
+    </Container>
+  );
+};
 
-                <div className="main-content">
-                    <div id="menu-button">
-                        <input type="checkbox" id="menu-checkbox" />
-                        <label htmlFor="menu-checkbox" id="menu-label">
-                            <div id="hamburger"></div>
-                        </label>
-                    </div>
-                    <Outlet />
-                </div>
+export default Layout;
 
-            </div>
-        </>
-    )
-}
+const Container = styled.div`
+  display: flex;
+  min-height: 100vh;
+  max-width: 100vw;
+`;

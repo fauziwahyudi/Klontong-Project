@@ -1,123 +1,200 @@
-import TableRowProduct from '../components/TableRowProduct'
-import { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from '../store/actions/actionCreator';
 import AddProductPage from './AddProductPage';
+import TableRowProduct from '../components/TableRowProduct';
+import Button from 'react-bootstrap/Button';
 
-export default function ProductList() {
+const ProductList = () => {
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState('');
 
-    const [show, setShow] = useState(false);
+  const products = useSelector((state) => state.productReducer.products);
+  const dispatch = useDispatch();
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  useEffect(() => {
+    dispatch(fetchProducts()).then(() => {
+      setLoading(false);
+    });
+  }, [dispatch]);
 
-    const [loading, setLoading] = useState(true)
+  const productsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalProducts = products.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
 
-    const products = useSelector((state) => state.productReducer.products)
-    const dispatch = useDispatch()
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
+  const displayProducts = products
+    .filter((el) => el.name.toLowerCase().includes(query.toLowerCase()))
+    .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
 
-    useEffect(() => {
-        dispatch(fetchProducts())
-            .then(() => {
-                setLoading(false)
-            })
-    }, [])
+  return (
+    <ProductListContainer>
+      <SearchContainer>
+        <input type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)} />
+        <div className="btn-search">
+          <i className="fa fa-search"></i>
+        </div>
+      </SearchContainer>
+      <ProductListHeader>
+        <ProductListTitle>Product List</ProductListTitle>
+        <CustomButton onClick={() => setShow(true)}>
+          + Create Product
+        </CustomButton>
+      </ProductListHeader>
+      <ProductListTable>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" width="200px">
+              IMAGE
+            </th>
+            <th scope="col" width="200px">
+              NAME
+            </th>
+            <th scope="col" width="180px">
+              CATEGORY
+            </th>
+            <th scope="col" width="200px">
+              PRICE
+            </th>
+            <th scope="col" width="200px">
+              CREATED BY
+            </th>
+            <th scope="col" width="200px">
+              DETAILS
+            </th>
+            <th scope="col" width="50px">
+              ACTION
+            </th>
+          </tr>
+        </thead>
+        <tbody id="table-product">
+          {loading ? (
+            <tr>
+              <td colSpan={8}>loading...</td>
+            </tr>
+          ) : (
+            displayProducts.map((el) => <TableRowProduct key={el.id} product={el} />)
+          )}
+        </tbody>
+      </ProductListTable>
+      <PaginationContainer>
+        <Button
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+          style={{ backgroundColor: '#333366', color: 'white' }}
+        >
+          Previous
+        </Button>
+        <div className="page-number">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <Button
+              key={page}
+              variant={page === currentPage ? 'primary' : 'secondary'}
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </Button>
+          ))}
+        </div>
+        <Button
+          disabled={currentPage === totalPages}
+          onClick={() => handlePageChange(currentPage + 1)}
+          style={{ backgroundColor: '#333366', color: 'white' }}
+        >
+          Next
+        </Button>
+      </PaginationContainer>
+      <AddProductPage show={show} handleClose={() => setShow(false)} />
+    </ProductListContainer>
+  );
+};
 
-    const [query, setQuery] = useState("")
+export default ProductList;
 
-    const productsPerPage = 10;
+const ProductListContainer = styled.div`
+  padding: 20px;
+`;
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const totalProducts = products.length;
-    const totalPages = Math.ceil(totalProducts / productsPerPage);
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
+const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
 
-    const displayProducts = products
-        .filter((el) => el.name.toLowerCase().includes(query))
-        .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
+  input {
+    padding: 8px;
+    border: none;
+    border-bottom: 2px solid #1c1c1e;
+    margin-right: 10px;
+    outline: none;
+  }
 
+  .btn-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: #333366;
+    color: white;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+`;
 
-    return (
-        <>
-            <section className="col-md-12 ms-sm-auto col-lg-12 px-md-4 mt-3">
-                <div className="container-search position-absolute align-items-center" >
-                    <input type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)} />
-                    <div className="btn-search ">
-                        <i className="fa fa-search"></i>
-                    </div>
-                </div>
-                <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 border-bottom" style={{ marginTop: "70px" }}>
-                    <h1 className="display-2" style={{ fontSize: "30px" }}>Product List</h1>
-                    <Button style={{ backgroundColor: '#333366', color: 'white' }} onClick={handleShow}>
-                        + Create Product
-                    </Button>
+const CustomButton = styled(Button)`
+    background-color: #333366;
+    color: white;
+    border: none;
+    &:hover {
+        background-color: #dfdf36;
+        color: #000;
+    }
+`;
 
-                    <AddProductPage show={show} handleClose={handleClose} />
+const ProductListHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+`;
 
-                </div>
-                <div className="row" >
-                    <div className="col-12 table-responsive">
-                        <table className="table align-middle">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col" width="200px">IMAGE</th>
-                                    <th scope="col" width="200px">NAME</th>
-                                    <th scope="col" width="180px">CATEGORY</th>
-                                    <th scope="col" width="200px">PRICE</th>
-                                    <th scope="col" width="200px" >CREATED BY</th>
-                                    <th scope="col" width="200px">DETAILS</th>
-                                    <th scope="col" width="50px">ACTION</th>
-                                </tr>
-                            </thead>
+const ProductListTitle = styled.h1`
+  font-size: 1.5rem;
+`;
 
-                            <tbody id="table-product">
-                                {loading ? (
-                                    <tr>
-                                        <td colSpan={8}>loading...</td>
-                                    </tr>
-                                ) : (
-                                    displayProducts.map((el) => (
-                                        <TableRowProduct key={el.id} product={el} />
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
+const ProductListTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
 
-            <div className="pagination mt-3 d-flex justify-content-center">
-                <Button
-                    disabled={currentPage === 1}
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    style={{marginBottom: "30px", backgroundColor: '#333366', color: 'white'}}
-                >
-                    Previous
-                </Button>
-                <div className="page-number">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                        <Button
-                            key={page}
-                            variant={page === currentPage ? 'primary' : 'secondary'}
-                            onClick={() => handlePageChange(page)}
-                        >
-                            {page}
-                        </Button>
-                    ))}
-                </div>
-                <Button
-                    disabled={currentPage === totalPages}
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    style={{marginBottom: "30px", backgroundColor: '#333366', color: 'white'}}
-                >
-                    Next
-                </Button>
-            </div>
-        </>
-    )
-}
+  th,
+  td {
+    padding: 10px;
+    border: 1px solid #333366;
+    text-align: center;
+  }
+
+  th {
+    background-color: #333366;
+    color: white;
+  }
+`;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+
+  .page-number {
+    margin: 0 5px;
+  }
+`;

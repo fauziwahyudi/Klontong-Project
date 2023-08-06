@@ -1,82 +1,155 @@
-import LogoKlontongMart from '../assets/klontong-mart.png'
-import Dashboard from '../assets/Dasboard.svg'
-import Categories from '../assets/categories.svg'
-import Register from '../assets/register.svg'
-import SignOut from '../assets/logout.svg'
-import { Link, useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import React, { useState } from 'react';
+import { FaTh, FaBars, FaUserAlt, FaThList, FaSignOutAlt } from 'react-icons/fa';
+import { NavLink, useNavigate } from 'react-router-dom';
+import LogoKlontongMart from '../assets/klontong-mart.png';
+import Swal from 'sweetalert2';
+import styled from 'styled-components';
 
-export default function Sidebar() {
+const Sidebar = ({ children }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const toggle = () => setIsOpen(!isOpen);
+    const menuItem = [
+        {
+            path: '/',
+            name: 'Dashboard',
+            icon: <FaTh />,
+        },
+        {
+            path: '/categories',
+            name: 'Categories',
+            icon: <FaThList />,
+        },
+        {
+            path: '/register',
+            name: 'Register Admin',
+            icon: <FaUserAlt />,
+        },
+    ];
 
-    const MySwal = withReactContent(Swal)
-    const navigate = useNavigate()
-    const henddleLogout = (e) => {
+    const navigate = useNavigate();
+
+    const handleLogout = (e) => {
         e.preventDefault();
-        localStorage.removeItem('access_token')
-        navigate('/login')
+        localStorage.removeItem('access_token');
+        navigate('/login');
 
-        const Toast = MySwal.mixin({
-            toast: true,
-            position: 'top-end',
+        Swal.fire({
+            icon: 'success',
+            title: 'Successfully Sign Out',
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', MySwal.stopTimer)
-                toast.addEventListener('mouseleave', MySwal.resumeTimer)
-            }
-        })
+            position: 'top-end',
+        });
+    };
 
-        Toast.fire({
-            icon: 'success',
-            title: 'Successfully Sign Out'
-        })
-    }
     return (
         <>
-                <div className="sidebar">
-                    <div className="header">
-                        <div className="list-item">
-                            <a href="#">
-                                <img src="" alt="" className="icon"/>
-                                    <span className="description-header" style={{marginLeft: "25px"}}>Admin Panel</span>
-                            </a>
-                        </div>
-                        <div className="illustration">
-                            <img style={{ width: "200px", marginLeft: "5px", marginBottom: "30px" }} src={LogoKlontongMart} alt=""/>
-                        </div>
-                    </div>
+            <SidebarContainer isOpen={isOpen}>
+                <TopSection>
 
-                    <div className="main">
-                        <div className="list-item">
-                            <Link to={'/'}>
-                                <img src={Dashboard} alt="" className="icon"/>
-                                    <span className="description">Dashboard</span>
-                            </Link>
-                        </div>
-                        <div className="list-item">
-                            <Link to={'/categories'}>
-                                <img src={Categories} alt="" className="icon"/>
-                                    <span className="description">Categories</span>
-                            </Link>
-                        </div>
-                        <div className="list-item">
-                            <Link to={'/register'}>
-                                <img src={Register} alt="" className="icon"/>
-                                    <span className="description">Register Admin</span>
-                            </Link>
-                        </div>
-                        <div className="list-item">
-                            <Link onClick={henddleLogout} >
-                                <img src={SignOut} alt="" className="icon"/>
-                                    <span className="description">Sign Out</span>
-                            </Link>
-                        </div>
-                    </div>
+                    <Logo isOpen={isOpen}>
+                        <img style={{ width: '150%' }} src={LogoKlontongMart} alt="" />
+                    </Logo>
+                    <BarsOpen onClick={toggle}>
+                        <OpenIcon isOpen={isOpen} />
+                    </BarsOpen>
 
-                </div>
-        
+                    <BarsClose onClick={toggle}>
+                        <CloseIcon isOpen={isOpen} />
+                    </BarsClose>
+
+                </TopSection>
+                {menuItem.map((item, index) => (
+                    <Link to={item.path} key={index} className="link" activeClassName="active">
+                        <Icon>{item.icon}</Icon>
+                        <LinkText isOpen={isOpen}>{item.name}</LinkText>
+                    </Link>
+                ))}
+                <Link to="/login" className="link" onClick={handleLogout}>
+                    <Icon>
+                        <FaSignOutAlt />
+                    </Icon>
+                    <LinkText isOpen={isOpen}>Sign Out</LinkText>
+                </Link>
+            </SidebarContainer>
+            <main>{children}</main>
         </>
-    )
-}
+    );
+};
+
+export default Sidebar;
+
+const SidebarContainer = styled.div`
+  background: #333366;
+  color: #fff;
+  height: ${({ isOpen }) => (isOpen ? '100vh' : '1506px')};
+  width: ${({ isOpen }) => (isOpen ? '250px' : '70px')};
+  transition: all 0.5s;
+`;
+
+const TopSection = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 20px 15px;
+`;
+
+const Logo = styled.h1`
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+`;
+
+const BarsOpen = styled.div`
+  display: flex;
+  font-size: 25px;
+  cursor: pointer;
+  
+`;
+
+const BarsClose = styled.div`
+  display: flex;
+  font-size: 25px;
+  margin-left: 50px;
+  cursor: pointer;
+  
+`;
+
+const OpenIcon = styled(FaBars)`
+  display: ${({ isOpen }) => (isOpen ? 'none' : 'block')};
+  
+`;
+
+const CloseIcon = styled(FaBars)`
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  
+  
+`;
+
+
+const Link = styled(NavLink)`
+  display: flex;
+  color: #fff;
+  padding: 10px 15px;
+  gap: 15px;
+  transition: all 0.5s;
+
+  &:hover {
+    background: #dfdf36;
+    color: #000;
+    transition: all 0.5s;
+  }
+
+  &.active {
+    background: #dfdf36;
+    color: #000;
+  }
+  text-decoration: none;
+`;
+
+const Icon = styled.div`
+  font-size: 20px;
+`;
+
+const LinkText = styled.div`
+  font-size: 20px;
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+`;
